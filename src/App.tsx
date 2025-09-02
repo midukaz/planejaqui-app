@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Plus } from 'lucide-react';
 import { Header } from './components/Header';
 import { ItemForm } from './components/ItemForm';
 import { CategoryFilter } from './components/CategoryFilter';
 import { ItemList } from './components/ItemList';
+import { Modal } from './components/Modal';
 import { Item, Category } from './types';
 import initialData from '../data.json';
 
@@ -10,6 +12,7 @@ function App() {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
   const [editingItem, setEditingItem] = useState<Item | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Carregar dados do data.json
   useEffect(() => {
@@ -67,6 +70,7 @@ function App() {
     const itemToEdit = items.find(item => item.id === id);
     if (itemToEdit) {
       setEditingItem(itemToEdit);
+      setIsModalOpen(true);
     }
   };
 
@@ -83,8 +87,14 @@ function App() {
     }
   };
 
-  const handleCancelEdit = () => {
+  const handleCloseModal = () => {
     setEditingItem(null);
+    setIsModalOpen(false);
+  };
+
+  const handleOpenAddModal = () => {
+    setEditingItem(null);
+    setIsModalOpen(true);
   };
 
   // Contar itens por categoria
@@ -98,31 +108,67 @@ function App() {
       <Header />
       
       <main className="container mx-auto px-6 py-8">
-        {editingItem ? (
-          <ItemForm 
-            onAddItem={handleUpdateItem}
-            editingItem={editingItem}
-            onCancel={handleCancelEdit}
-          />
+        {items.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="mb-8">
+              <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Plus className="w-12 h-12 text-emerald-600" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+                Comece sua lista
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Adicione os itens que você precisa para sua casa nova
+              </p>
+              <button
+                onClick={handleOpenAddModal}
+                className="bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-700 transition-colors font-semibold text-lg"
+              >
+                Adicionar Primeiro Item
+              </button>
+            </div>
+          </div>
         ) : (
-          <ItemForm onAddItem={handleAddItem} />
+          <>
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              itemCounts={itemCounts}
+            />
+            
+            <ItemList
+              items={items}
+              selectedCategory={selectedCategory}
+              onDeleteItem={handleDeleteItem}
+              onEditItem={handleEditItem}
+            />
+          </>
         )}
-        
-        {items.length > 0 && (
-          <CategoryFilter
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-            itemCounts={itemCounts}
-          />
-        )}
-        
-        <ItemList
-          items={items}
-          selectedCategory={selectedCategory}
-          onDeleteItem={handleDeleteItem}
-          onEditItem={handleEditItem}
-        />
       </main>
+
+      {/* Botão flutuante para adicionar */}
+      {items.length > 0 && (
+        <button
+          onClick={handleOpenAddModal}
+          className="fixed bottom-6 right-6 bg-emerald-600 text-white p-4 rounded-full shadow-lg hover:bg-emerald-700 transition-all hover:scale-105 z-40"
+          title="Adicionar novo item"
+        >
+          <Plus className="w-6 h-6" />
+        </button>
+      )}
+
+      {/* Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title={editingItem ? 'Editar Pendência' : 'Nova Pendência'}
+      >
+        <ItemForm
+          onAddItem={editingItem ? handleUpdateItem : handleAddItem}
+          editingItem={editingItem}
+          onCancel={handleCloseModal}
+        />
+      </Modal>
     </div>
   );
 }

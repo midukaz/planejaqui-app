@@ -5,7 +5,7 @@ import { Item, CATEGORIES, Category } from '../types';
 interface ItemFormProps {
   onAddItem: (item: Omit<Item, 'id' | 'createdAt'>) => void;
   editingItem?: Item | null;
-  onCancel?: () => void;
+  onCancel: () => void;
 }
 
 export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
@@ -17,8 +17,6 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
     category: '' as Category | ''
   });
 
-  const [isExpanded, setIsExpanded] = useState(!!editingItem);
-
   // Atualizar formulário quando receber item para editar
   useEffect(() => {
     if (editingItem) {
@@ -29,7 +27,6 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
         storeLink: editingItem.storeLink,
         category: editingItem.category
       });
-      setIsExpanded(true);
     } else {
       setFormData({
         name: '',
@@ -38,7 +35,6 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
         storeLink: '',
         category: ''
       });
-      setIsExpanded(false);
     }
   }, [editingItem]);
 
@@ -55,49 +51,16 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
       category: formData.category as Category
     });
 
-    if (!editingItem) {
-      setFormData({
-        name: '',
-        description: '',
-        price: '',
-        storeLink: '',
-        category: ''
-      });
-      setIsExpanded(false);
-    }
+    // Fechar modal após salvar
+    onCancel();
   };
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  if (!isExpanded && !editingItem) {
-    return (
-      <div className="mb-8">
-        <button
-          onClick={() => setIsExpanded(true)}
-          className="w-full bg-white border-2 border-dashed border-emerald-300 rounded-xl p-8 hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-200 group"
-        >
-          <div className="flex items-center justify-center gap-3 text-emerald-600">
-            <Plus className="w-8 h-8 group-hover:scale-110 transition-transform" />
-            <span className="text-xl font-semibold">Adicionar Nova Pendência</span>
-          </div>
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="mb-8">
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <Plus className="w-6 h-6 text-emerald-600" />
-          <h2 className="text-2xl font-bold text-gray-800">
-            {editingItem ? 'Editar Pendência' : 'Nova Pendência'}
-          </h2>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
@@ -190,20 +153,12 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
             </button>
             <button
               type="button"
-              onClick={() => {
-                if (editingItem && onCancel) {
-                  onCancel();
-                } else {
-                  setIsExpanded(false);
-                }
-              }}
+              onClick={onCancel}
               className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-semibold"
             >
               Cancelar
             </button>
           </div>
         </form>
-      </div>
-    </div>
   );
 }
