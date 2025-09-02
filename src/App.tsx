@@ -6,7 +6,6 @@ import { CategoryFilter } from './components/CategoryFilter';
 import { ItemList } from './components/ItemList';
 import { Modal } from './components/Modal';
 import { Item, Category } from './types';
-import initialData from '../data.json';
 
 function App() {
   const [items, setItems] = useState<Item[]>([]);
@@ -14,43 +13,25 @@ function App() {
   const [editingItem, setEditingItem] = useState<Item | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Carregar dados do data.json
+  // Carregar dados do localStorage
   useEffect(() => {
-    try {
-      const parsedItems = (initialData as any[]).map((item: any) => ({
-        ...item,
-        createdAt: new Date(item.createdAt)
-      }));
-      setItems(parsedItems);
-    } catch (error) {
-      console.error('Erro ao carregar dados do JSON:', error);
+    const savedItems = localStorage.getItem('planejaqui-items');
+    if (savedItems) {
+      try {
+        const parsedItems = JSON.parse(savedItems).map((item: any) => ({
+          ...item,
+          createdAt: new Date(item.createdAt)
+        }));
+        setItems(parsedItems);
+      } catch (error) {
+        console.error('Erro ao carregar dados salvos:', error);
+      }
     }
   }, []);
 
-  // Salvar dados no data.json
-  const saveToDataJson = async (data: Item[]) => {
-    try {
-      const response = await fetch('/api/save-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      
-      if (response.ok) {
-        console.log('✅ Dados salvos no data.json!');
-      }
-    } catch (error) {
-      console.error('Erro ao salvar dados:', error);
-    }
-  };
-
-  // Salvar automaticamente quando houver mudanças
+  // Salvar dados no localStorage
   useEffect(() => {
-    if (items.length > 0) {
-      saveToDataJson(items);
-    }
+    localStorage.setItem('planejaqui-items', JSON.stringify(items));
   }, [items]);
 
   const handleAddItem = (newItem: Omit<Item, 'id' | 'createdAt'>) => {
