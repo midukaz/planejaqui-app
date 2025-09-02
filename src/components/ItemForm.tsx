@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Tag, DollarSign, Link, FileText } from 'lucide-react';
 import { Item, CATEGORIES, Category } from '../types';
 
 interface ItemFormProps {
   onAddItem: (item: Omit<Item, 'id' | 'createdAt'>) => void;
+  editingItem?: Item | null;
+  onCancel?: () => void;
 }
 
-export function ItemForm({ onAddItem }: ItemFormProps) {
+export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -15,7 +17,30 @@ export function ItemForm({ onAddItem }: ItemFormProps) {
     category: '' as Category | ''
   });
 
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(!!editingItem);
+
+  // Atualizar formulário quando receber item para editar
+  useEffect(() => {
+    if (editingItem) {
+      setFormData({
+        name: editingItem.name,
+        description: editingItem.description,
+        price: editingItem.price.toString(),
+        storeLink: editingItem.storeLink,
+        category: editingItem.category
+      });
+      setIsExpanded(true);
+    } else {
+      setFormData({
+        name: '',
+        description: '',
+        price: '',
+        storeLink: '',
+        category: ''
+      });
+      setIsExpanded(false);
+    }
+  }, [editingItem]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,22 +55,23 @@ export function ItemForm({ onAddItem }: ItemFormProps) {
       category: formData.category as Category
     });
 
-    setFormData({
-      name: '',
-      description: '',
-      price: '',
-      storeLink: '',
-      category: ''
-    });
-    
-    setIsExpanded(false);
+    if (!editingItem) {
+      setFormData({
+        name: '',
+        description: '',
+        price: '',
+        storeLink: '',
+        category: ''
+      });
+      setIsExpanded(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  if (!isExpanded) {
+  if (!isExpanded && !editingItem) {
     return (
       <div className="mb-8">
         <button
@@ -66,7 +92,9 @@ export function ItemForm({ onAddItem }: ItemFormProps) {
       <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
         <div className="flex items-center gap-3 mb-6">
           <Plus className="w-6 h-6 text-emerald-600" />
-          <h2 className="text-2xl font-bold text-gray-800">Nova Pendência</h2>
+          <h2 className="text-2xl font-bold text-gray-800">
+            {editingItem ? 'Editar Pendência' : 'Nova Pendência'}
+          </h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -158,11 +186,17 @@ export function ItemForm({ onAddItem }: ItemFormProps) {
               type="submit"
               className="flex-1 bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition-colors font-semibold"
             >
-              Adicionar Item
+              {editingItem ? 'Salvar Alterações' : 'Adicionar Item'}
             </button>
             <button
               type="button"
-              onClick={() => setIsExpanded(false)}
+              onClick={() => {
+                if (editingItem && onCancel) {
+                  onCancel();
+                } else {
+                  setIsExpanded(false);
+                }
+              }}
               className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-semibold"
             >
               Cancelar

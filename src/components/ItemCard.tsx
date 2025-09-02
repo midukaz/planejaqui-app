@@ -1,13 +1,14 @@
 import React from 'react';
-import { ExternalLink, Tag, Trash2 } from 'lucide-react';
+import { ExternalLink, Tag, Trash2, Edit2 } from 'lucide-react';
 import { Item } from '../types';
 
 interface ItemCardProps {
   item: Item;
   onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
 }
 
-export function ItemCard({ item, onDelete }: ItemCardProps) {
+export function ItemCard({ item, onDelete, onEdit }: ItemCardProps) {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -42,13 +43,22 @@ export function ItemCard({ item, onDelete }: ItemCardProps) {
           <p className="text-gray-600 leading-relaxed">{item.description}</p>
         </div>
         
-        <button
-          onClick={() => onDelete(item.id)}
-          className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-          title="Remover item"
-        >
-          <Trash2 className="w-5 h-5" />
-        </button>
+        <div className="flex gap-1">
+          <button
+            onClick={() => onEdit(item.id)}
+            className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all"
+            title="Editar item"
+          >
+            <Edit2 className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => onDelete(item.id)}
+            className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+            title="Remover item"
+          >
+            <Trash2 className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t border-gray-100">

@@ -9,6 +9,7 @@ import initialData from '../data.json';
 function App() {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
+  const [editingItem, setEditingItem] = useState<Item | null>(null);
 
   // Carregar dados do data.json
   useEffect(() => {
@@ -62,6 +63,30 @@ function App() {
     setItems(prev => prev.filter(item => item.id !== id));
   };
 
+  const handleEditItem = (id: string) => {
+    const itemToEdit = items.find(item => item.id === id);
+    if (itemToEdit) {
+      setEditingItem(itemToEdit);
+    }
+  };
+
+  const handleUpdateItem = (updatedItem: Omit<Item, 'id' | 'createdAt'>) => {
+    if (editingItem) {
+      const updated: Item = {
+        ...editingItem,
+        ...updatedItem
+      };
+      setItems(prev => prev.map(item => 
+        item.id === editingItem.id ? updated : item
+      ));
+      setEditingItem(null);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingItem(null);
+  };
+
   // Contar itens por categoria
   const itemCounts = items.reduce((acc, item) => {
     acc[item.category] = (acc[item.category] || 0) + 1;
@@ -73,7 +98,15 @@ function App() {
       <Header />
       
       <main className="container mx-auto px-6 py-8">
-        <ItemForm onAddItem={handleAddItem} />
+        {editingItem ? (
+          <ItemForm 
+            onAddItem={handleUpdateItem}
+            editingItem={editingItem}
+            onCancel={handleCancelEdit}
+          />
+        ) : (
+          <ItemForm onAddItem={handleAddItem} />
+        )}
         
         {items.length > 0 && (
           <CategoryFilter
@@ -87,6 +120,7 @@ function App() {
           items={items}
           selectedCategory={selectedCategory}
           onDeleteItem={handleDeleteItem}
+          onEditItem={handleEditItem}
         />
       </main>
     </div>

@@ -7,9 +7,10 @@ interface ItemListProps {
   items: Item[];
   selectedCategory: Category | 'all';
   onDeleteItem: (id: string) => void;
+  onEditItem: (id: string) => void;
 }
 
-export function ItemList({ items, selectedCategory, onDeleteItem }: ItemListProps) {
+export function ItemList({ items, selectedCategory, onDeleteItem, onEditItem }: ItemListProps) {
   const filteredItems = selectedCategory === 'all' 
     ? items 
     : items.filter(item => item.category === selectedCategory);
@@ -69,6 +70,7 @@ export function ItemList({ items, selectedCategory, onDeleteItem }: ItemListProp
             key={item.id}
             item={item}
             onDelete={onDeleteItem}
+            onEdit={onEditItem}
           />
         ))}
       </div>
