@@ -12,6 +12,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
   const [editingItem, setEditingItem] = useState<Item | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Carregar dados do localStorage
   useEffect(() => {
@@ -33,6 +34,17 @@ function App() {
   useEffect(() => {
     localStorage.setItem('planejaqui-items', JSON.stringify(items));
   }, [items]);
+
+  // Detectar scroll para ajustar layout
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleAddItem = (newItem: Omit<Item, 'id' | 'createdAt'>) => {
     const item: Item = {
@@ -88,7 +100,9 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <main className="container mx-auto px-6 py-8">
+      <main className={`container mx-auto px-6 py-8 transition-all duration-300 ${
+        isScrolled ? 'pt-32' : 'pt-56'
+      }`}>
         {items.length === 0 ? (
           <div className="text-center py-16">
             <div className="mb-8">
