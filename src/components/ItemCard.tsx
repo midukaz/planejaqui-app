@@ -24,14 +24,14 @@ export function ItemCard({ item, onDelete, onEdit }: ItemCardProps) {
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
-      'Sala de Estar': 'bg-blue-100 text-blue-800',
-      'Cozinha': 'bg-orange-100 text-orange-800',
-      'Quarto': 'bg-purple-100 text-purple-800',
-      'Banheiro': 'bg-cyan-100 text-cyan-800',
-      'Área Externa': 'bg-green-100 text-green-800',
-      'Decoração': 'bg-pink-100 text-pink-800',
-      'Eletrodomésticos': 'bg-yellow-100 text-yellow-800',
-      'Outros': 'bg-gray-100 text-gray-800'
+      'Sala de Estar': 'text-purple-600 border-purple-200 bg-purple-50/80',
+      'Cozinha': 'text-amber-600 border-amber-200 bg-amber-50/80',
+      'Quarto': 'text-pink-600 border-pink-200 bg-pink-50/80',
+      'Banheiro': 'text-sky-600 border-sky-200 bg-sky-50/80',
+      'Área Externa': 'text-emerald-600 border-emerald-200 bg-emerald-50/80',
+      'Decoração': 'text-rose-600 border-rose-200 bg-rose-50/80',
+      'Eletrodomésticos': 'text-stone-600 border-stone-200 bg-stone-50/80',
+      'Outros': 'text-slate-600 border-slate-200 bg-slate-50/80'
     };
     return colors[category] || colors['Outros'];
   };
@@ -67,54 +67,26 @@ export function ItemCard({ item, onDelete, onEdit }: ItemCardProps) {
     }
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    startX.current = e.clientX;
-    setIsDragging(true);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    
-    currentX.current = e.clientX;
-    const diffX = startX.current - currentX.current;
-    
-    if (diffX > 0) {
-      setSwipeOffset(Math.min(diffX, 80));
-    } else {
-      setSwipeOffset(0);
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    
-    if (swipeOffset > 40) {
-      setSwipeOffset(80);
-    } else {
-      setSwipeOffset(0);
-    }
-  };
-
   return (
-    <div className="relative overflow-hidden bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200">
+    <div className="relative overflow-hidden rounded-3xl border border-white/70 bg-white shadow-lg backdrop-blur-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl">
       {/* Botão de deletar que fica atrás */}
-      <div className="absolute inset-0 flex items-center justify-end pr-6 bg-red-500">
+      <div className="absolute inset-0 flex items-center justify-end pr-5 bg-gradient-to-br from-rose-500 to-red-500 md:hidden">
         <button
           onClick={() => {
             onDelete(item.id);
             setSwipeOffset(0);
           }}
-          className="p-3 text-white hover:bg-red-600 rounded-lg transition-all"
+          className="rounded-2xl bg-white/10 p-2.5 text-white transition-all hover:bg-white/20"
           title="Remover item"
         >
-          <Trash2 className="w-6 h-6" />
+          <Trash2 className="w-5 h-5" />
         </button>
       </div>
 
       {/* Card principal que desliza */}
       <div
         ref={cardRef}
-        className="relative bg-white rounded-xl p-6 transition-transform duration-200"
+        className="relative rounded-3xl bg-white p-5 sm:p-6 transition-transform duration-200"
         style={{
           transform: `translateX(-${swipeOffset}px)`,
           cursor: isDragging ? 'grabbing' : 'grab'
@@ -122,68 +94,84 @@ export function ItemCard({ item, onDelete, onEdit }: ItemCardProps) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
       >
-        <div className="flex justify-between items-start mb-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(item.category)}`}>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-start justify-between gap-3 sm:gap-4">
+            <div className="flex-1 space-y-2.5">
+              <div className={`inline-flex items-center gap-2 rounded-full border px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold ${getCategoryColor(item.category)}`}>
+                <Tag className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                 {item.category}
-              </span>
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-semibold text-slate-900">{item.name}</h3>
+                {item.description && (
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-600">
+                    {item.description}
+                  </p>
+                )}
+              </div>
             </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">{item.name}</h3>
-            <p className="text-gray-600 leading-relaxed">{item.description}</p>
-          </div>
-          
-          {/* Botões - apenas desktop */}
-          <div className="hidden md:flex gap-1">
-            <button
-              onClick={() => onEdit(item.id)}
-              className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all"
-              title="Editar item"
-            >
-              <Edit2 className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => onDelete(item.id)}
-              className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-              title="Remover item"
-            >
-              <Trash2 className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Botão de editar apenas para mobile */}
-          <div className="md:hidden">
-            <button
-              onClick={() => onEdit(item.id)}
-              className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all"
-              title="Editar item"
-            >
-              <Edit2 className="w-5 h-5" />
-            </button>
-          </div>
+            <div className="flex flex-col gap-2 text-right">
+              <span className="text-[11px] sm:text-xs font-medium uppercase tracking-wide text-slate-500">Registrado em</span>
+              <span className="text-xs sm:text-sm font-semibold text-slate-700">
+                {new Intl.DateTimeFormat('pt-BR', {
+                  day: '2-digit',
+                  month: 'short',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }).format(new Date(item.createdAt))}
+              </span>
+              <div className="hidden md:flex justify-end gap-2">
+                <button
+                  onClick={() => onEdit(item.id)}
+                  className="rounded-xl border border-slate-200 px-2.5 py-1.5 text-slate-500 transition-all hover:border-emerald-200 hover:text-emerald-600"
+                  title="Editar item"
+                >
+                  <Edit2 className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => onDelete(item.id)}
+                  className="rounded-xl border border-slate-200 px-2.5 py-1.5 text-slate-500 transition-all hover:border-rose-200 hover:text-rose-600"
+                  title="Remover item"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-          <div className="text-2xl font-bold text-emerald-600">
-            {formatPrice(item.price)}
+          <div className="flex items-center justify-between gap-3 sm:gap-4 rounded-2xl border border-slate-100 bg-slate-50 px-3.5 sm:px-4 py-2.5 sm:py-3">
+            <div>
+              <p className="text-[11px] sm:text-xs uppercase tracking-wide text-slate-500">Investimento estimado</p>
+              <p className="text-xl sm:text-2xl font-semibold text-emerald-600">{formatPrice(item.price)}</p>
+            </div>
+
+            {item.storeLink ? (
+              <a
+                href={item.storeLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-white shadow hover:opacity-95 transition-all"
+              >
+                Ver na loja
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            ) : (
+              <span className="rounded-2xl border border-dashed border-slate-300 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-medium text-slate-500">
+                Adicione um link quando estiver pronto
+              </span>
+            )}
           </div>
-          
-          {item.storeLink && (
-            <a
-              href={item.storeLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm font-medium"
+
+          <div className="md:hidden flex justify-end gap-2 pt-2">
+            <button
+              onClick={() => onEdit(item.id)}
+              className="rounded-xl border border-slate-200 px-3 py-2 text-slate-500 transition-all hover:border-emerald-200 hover:text-emerald-600"
+              title="Editar item"
             >
-              Ver na Loja
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          )}
+              <Edit2 className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

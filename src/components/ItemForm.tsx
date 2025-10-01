@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Tag, DollarSign, Link, FileText } from 'lucide-react';
+import { Tag, DollarSign, Link, FileText, Sparkles } from 'lucide-react';
 import { Item, CATEGORIES, Category } from '../types';
 
 interface ItemFormProps {
@@ -60,105 +60,119 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                <Tag className="w-4 h-4" />
-                Nome do Item *
-              </label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                placeholder="Ex: Sofá 3 lugares"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                <Tag className="w-4 h-4" />
-                Categoria *
-              </label>
-              <select
-                value={formData.category}
-                onChange={(e) => handleChange('category', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                required
-              >
-                <option value="">Selecione uma categoria</option>
-                {CATEGORIES.map(category => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="rounded-3xl border border-slate-100 bg-white/70 p-5 sm:p-6 shadow-sm">
+        <div className="mb-5 sm:mb-6 flex items-center gap-2.5 sm:gap-3">
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-2xl bg-gradient-to-r from-emerald-400 via-teal-400 to-sky-400 text-white shadow">
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
-
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <FileText className="w-4 h-4" />
-              Descrição
+            <h3 className="text-base sm:text-lg font-semibold text-slate-900">
+              {editingItem ? 'Atualize os detalhes do item' : 'Vamos registrar um novo sonho para a casa?'}
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-500">Preencha o que já sabe e volte depois para completar.</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2">
+          <div className="space-y-2">
+            <label className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-slate-600">
+              <Tag className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              Nome do item *
             </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all h-24 resize-none"
-              placeholder="Descreva detalhes do item, cor, material, etc..."
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => handleChange('name', e.target.value)}
+              className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+              placeholder="Ex: Conjunto de panelas antiaderentes"
+              required
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                <DollarSign className="w-4 h-4" />
-                Preço (R$) *
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                value={formData.price}
-                onChange={(e) => handleChange('price', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                placeholder="0,00"
-                required
-              />
-            </div>
+          <div className="space-y-2">
+            <label className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-slate-600">
+              <Tag className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              Categoria *
+            </label>
+            <select
+              value={formData.category}
+              onChange={(e) => handleChange('category', e.target.value)}
+              className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+              required
+            >
+              <option value="">Selecione uma categoria</option>
+              {CATEGORIES.map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                <Link className="w-4 h-4" />
-                Link da Loja
-              </label>
-              <input
-                type="url"
-                value={formData.storeLink}
-                onChange={(e) => handleChange('storeLink', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                placeholder="https://..."
-              />
-            </div>
+        <div className="space-y-2">
+          <label className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-slate-600">
+            <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            Descrição
+          </label>
+          <textarea
+            value={formData.description}
+            onChange={(e) => handleChange('description', e.target.value)}
+            className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100 h-24 sm:h-28 resize-none"
+            placeholder="Detalhe cores, medidas, link de referência ou ideias sobre como usar."
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2">
+          <div className="space-y-2">
+            <label className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-slate-600">
+              <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              Preço estimado (R$) *
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              value={formData.price}
+              onChange={(e) => handleChange('price', e.target.value)}
+              className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+              placeholder="0,00"
+              required
+            />
           </div>
 
-          <div className="flex gap-3 pt-2">
-            <button
-              type="submit"
-              className="flex-1 bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition-colors font-semibold"
-            >
-              {editingItem ? 'Salvar Alterações' : 'Adicionar Item'}
-            </button>
-            <button
-              type="button"
-              onClick={onCancel}
-              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-semibold"
-            >
-              Cancelar
-            </button>
+          <div className="space-y-2">
+            <label className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-slate-600">
+              <Link className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              Link da loja
+            </label>
+            <input
+              type="url"
+              value={formData.storeLink}
+              onChange={(e) => handleChange('storeLink', e.target.value)}
+              className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+              placeholder="https://www.exemplo.com/meu-item"
+            />
           </div>
-        </form>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2.5 sm:gap-3 md:flex-row">
+        <button
+          type="submit"
+          className="gradient-button flex-1 rounded-2xl px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold shadow-lg transition-all hover:opacity-95"
+        >
+          {editingItem ? 'Salvar alterações' : 'Adicionar à minha casa dos sonhos'}
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-2xl border border-slate-200 px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-slate-500 transition-all hover:border-slate-300 hover:text-slate-700"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
   );
 }
