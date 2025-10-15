@@ -7,10 +7,10 @@
 }
 
 body {
-  @apply bg-slate-50 text-slate-800;
-  background-image: radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.12), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(45, 212, 191, 0.12), transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(14, 165, 233, 0.1), transparent 45%);
+  @apply bg-brand-50 text-brand-900;
+  background-image: radial-gradient(circle at 20% 20%, rgba(195, 139, 86, 0.16), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(211, 166, 123, 0.14), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(169, 112, 67, 0.12), transparent 45%);
   background-attachment: fixed;
   min-height: 100vh;
 }
@@ -20,9 +20,9 @@ body {
 }
 
 .neutral-section {
-  @apply bg-white shadow-sm rounded-3xl border border-slate-200/60;
+  @apply bg-white shadow-sm rounded-3xl border border-brand-100/60;
 }
 
 .gradient-button {
-  @apply bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 text-white shadow-lg;
+  @apply bg-brand-500 text-white shadow-lg hover:bg-brand-600;
 }

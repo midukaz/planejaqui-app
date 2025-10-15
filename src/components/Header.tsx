@@ -22,19 +22,19 @@ export function Header() {
       }`}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col items-center text-center gap-3">
-            {/* <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-emerald-700 text-xs sm:text-sm font-semibold shadow-sm">
+            {/* <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-brand-700 text-xs sm:text-sm font-semibold shadow-sm">
               <Sparkles className="w-2.5 h-2.5" />
               {isScrolled ? 'Seu enxoval em ordem' : 'Seu enxoval começa aqui'}
             </span> */}
             <div className="flex items-center justify-center gap-3 sm:gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 via-teal-400 to-sky-400 shadow-lg">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-500 shadow-lg">
                 <Gift className="w-7 h-7 text-white" />
               </div>
               <div className="text-left">
                 <h3 className={`font-semibold tracking-tight text-slate-900 ${
                   isScrolled ? 'text-2xl sm:text-3xl' : 'text-2xl sm:text-3xl'
                 }`}>
-                  Planejaqui <span className="text-emerald-500">Home</span>
+                  Planejaqui <span className="text-brand-600">Home</span>
                 </h3>
                 {/* {!isScrolled && (
                   <p className="text-slate-600 text-sm sm:text-base max-w-sm">

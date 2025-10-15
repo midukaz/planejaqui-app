@@ -63,7 +63,7 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="rounded-3xl border border-slate-100 bg-white/70 p-5 sm:p-6 shadow-sm">
         <div className="mb-5 sm:mb-6 flex items-center gap-2.5 sm:gap-3">
-          <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-2xl bg-gradient-to-r from-emerald-400 via-teal-400 to-sky-400 text-white shadow">
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-2xl bg-brand-500 text-white shadow">
             <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
           <div>
@@ -84,7 +84,7 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
               type="text"
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
-              className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+              className="w-full rounded-2xl border border-brand-100 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-brand-700 shadow-sm transition-all focus:border-brand-200 focus:bg-white focus:ring-2 focus:ring-brand-100"
               placeholder="Ex: Conjunto de panelas antiaderentes"
               required
             />
@@ -98,7 +98,7 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
             <select
               value={formData.category}
               onChange={(e) => handleChange('category', e.target.value)}
-              className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+              className="w-full rounded-2xl border border-brand-100 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-brand-700 shadow-sm transition-all focus:border-brand-200 focus:bg-white focus:ring-2 focus:ring-brand-100"
               required
             >
               <option value="">Selecione uma categoria</option>
@@ -119,7 +119,7 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
           <textarea
             value={formData.description}
             onChange={(e) => handleChange('description', e.target.value)}
-            className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100 h-24 sm:h-28 resize-none"
+            className="w-full rounded-2xl border border-brand-100 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm text-brand-700 shadow-sm transition-all focus:border-brand-200 focus:bg-white focus:ring-2 focus:ring-brand-100 h-24 sm:h-28 resize-none"
             placeholder="Detalhe cores, medidas, link de referência ou ideias sobre como usar."
           />
         </div>
@@ -136,7 +136,7 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
               min="0"
               value={formData.price}
               onChange={(e) => handleChange('price', e.target.value)}
-              className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+              className="w-full rounded-2xl border border-brand-100 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-brand-700 shadow-sm transition-all focus:border-brand-200 focus:bg-white focus:ring-2 focus:ring-brand-100"
               placeholder="0,00"
               required
             />
@@ -151,7 +151,7 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
               type="url"
               value={formData.storeLink}
               onChange={(e) => handleChange('storeLink', e.target.value)}
-              className="w-full rounded-2xl border border-slate-200 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-700 shadow-sm transition-all focus:border-emerald-200 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+              className="w-full rounded-2xl border border-brand-100 bg-white/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-brand-700 shadow-sm transition-all focus:border-brand-200 focus:bg-white focus:ring-2 focus:ring-brand-100"
               placeholder="https://www.exemplo.com/meu-item"
             />
           </div>
@@ -161,7 +161,7 @@ export function ItemForm({ onAddItem, editingItem, onCancel }: ItemFormProps) {
       <div className="flex flex-col gap-2.5 sm:gap-3 md:flex-row">
         <button
           type="submit"
-          className="gradient-button flex-1 rounded-2xl px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold shadow-lg transition-all hover:opacity-95"
+          className="gradient-button flex-1 rounded-2xl px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold shadow-lg transition-all"
         >
           {editingItem ? 'Salvar alterações' : 'Adicionar à minha casa dos sonhos'}
         </button>

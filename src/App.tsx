@@ -121,7 +121,7 @@ function App() {
         <section className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4 mb-10">
           <div className="glass-card rounded-3xl p-5 sm:p-6">
             <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-700">
                 <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
@@ -133,7 +133,7 @@ function App() {
 
           <div className="glass-card rounded-3xl p-5 sm:p-6">
             <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-sky-100 text-sky-600">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-700">
                 <PiggyBank className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
@@ -145,7 +145,7 @@ function App() {
 
           <div className="glass-card rounded-3xl p-5 sm:p-6">
             <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-teal-100 text-teal-600">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-700">
                 <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
@@ -157,7 +157,7 @@ function App() {
 
           <div className="glass-card rounded-3xl p-5 sm:p-6">
             <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-rose-100 text-rose-600">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-700">
                 <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
@@ -206,8 +206,8 @@ function App() {
         {items.length === 0 ? (
           <div className="neutral-section p-8 sm:p-12 text-center flex flex-col items-center gap-5 sm:gap-6">
             <div className="relative">
-              <div className="absolute -inset-4 rounded-full bg-emerald-100/60 blur-xl" />
-              <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-400 text-white shadow-xl">
+              <div className="absolute -inset-4 rounded-full bg-brand-100/60 blur-xl" />
+              <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-brand-500 text-white shadow-xl">
                 <Plus className="w-12 h-12" />
               </div>
             </div>

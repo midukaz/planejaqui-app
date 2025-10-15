@@ -42,7 +42,7 @@ export function ItemList({ items, selectedCategory, onDeleteItem, onEditItem }: 
     <div className="space-y-6 sm:space-y-8">
       <div className="glass-card rounded-3xl p-5 sm:p-6 flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-start gap-3 sm:gap-4">
-          <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 via-teal-400 to-sky-400 text-white shadow-lg">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-brand-500 text-white shadow-lg">
             <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
@@ -55,9 +55,9 @@ export function ItemList({ items, selectedCategory, onDeleteItem, onEditItem }: 
             </p>
           </div>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white/70 px-4 sm:px-5 py-2.5 sm:py-3 text-right">
-          <p className="text-xs sm:text-sm text-slate-500">Total estimado</p>
-          <p className="text-2xl sm:text-3xl font-semibold text-emerald-600">{formatPrice(totalValue)}</p>
+        <div className="rounded-2xl border border-brand-100 bg-white/70 px-4 sm:px-5 py-2.5 sm:py-3 text-right">
+          <p className="text-xs sm:text-sm text-brand-600">Total estimado</p>
+          <p className="text-2xl sm:text-3xl font-semibold text-brand-700">{formatPrice(totalValue)}</p>
         </div>
       </div>
 
